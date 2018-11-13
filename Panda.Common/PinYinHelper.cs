@@ -9,12 +9,65 @@ namespace Panda.Common
 {
     public class PinYinHelper
     {
+        #region ChnCharInfo.dll
+
+        /// <summary>
+        /// 获取首字符
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string GetPYFirstString(string str)
+        {
+            string r = string.Empty;
+            foreach (char obj in str)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    r += t.Substring(0, 1);
+                }
+                catch
+                {
+                    r += obj.ToString();
+                }
+            }
+            return r;
+        }
+
+        /// <summary>
+        /// 获取全拼
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string GetPYFullString(string str)
+        {
+            string r = string.Empty;
+            foreach (char obj in str)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    r += t.Substring(0, t.Length - 1);
+                }
+                catch
+                {
+                    r += obj.ToString();
+                }
+            }
+            return r;
+        }
+
+        #endregion
+
+        #region 自计算
         /// <summary>
         /// 获取拼音首字母
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string GetPYFirstString(string str)
+        public static string GetPYFirstString2(string str)
         {
             string tempStr = "";
             foreach (char c in str)
@@ -25,7 +78,7 @@ namespace Panda.Common
                 }
                 else
                 {//累加拼音声母     
-                    tempStr += GetPYFirstChar(c.ToString());
+                    tempStr += GetPYFirstChar2(c.ToString());
                 }
             }
             return tempStr;
@@ -36,7 +89,7 @@ namespace Panda.Common
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static string GetPYFirstChar(string c)
+        public static string GetPYFirstChar2(string c)
         {
             byte[] array = new byte[2];
             array = System.Text.Encoding.Default.GetBytes(c);
@@ -67,54 +120,6 @@ namespace Panda.Common
             if (i < 0xD7FA) return "z";
             return "*";
         }
-
-        /// <summary>
-        /// 获取首字符
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string GetPYFirstString2(string str)
-        {
-            string r = string.Empty;
-            foreach (char obj in str)
-            {
-                try
-                {
-                    ChineseChar chineseChar = new ChineseChar(obj);
-                    string t = chineseChar.Pinyins[0].ToString();
-                    r += t.Substring(0, 1);
-                }
-                catch
-                {
-                    r += obj.ToString();
-                }
-            }
-            return r;
-        }
-
-        /// <summary>
-        /// 获取首字符
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string GetPYFullString(string str)
-        {
-            bool b1 = ChineseChar.IsValidPinyin(str);
-            string r = string.Empty;
-            foreach (char obj in str)
-            {
-                try
-                {
-                    ChineseChar chineseChar = new ChineseChar(obj);
-                    string t = chineseChar.Pinyins[0].ToString();
-                    r += t.Substring(0, t.Length - 1);
-                }
-                catch
-                {
-                    r += obj.ToString();
-                }
-            }
-            return r;
-        }
+        #endregion
     }
 }

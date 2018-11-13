@@ -12,3 +12,17 @@ E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.WinForm\obj\Debug\Panda.WinForm.csp
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.WinForm\obj\Debug\Panda.WinForm.exe
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.WinForm\obj\Debug\Panda.WinForm.pdb
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.WinForm\bin\Debug\ChnCharInfo.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\Panda.WinForm.exe.config
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\Panda.WinForm.exe
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\Panda.WinForm.pdb
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\Panda.Common.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\ChnCharInfo.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\bin\Debug\Panda.Common.pdb
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.csprojAssemblyReference.cache
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.Form1.resources
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.Properties.Resources.resources
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.csproj.GenerateResource.cache
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.csproj.CoreCompileInputs.cache
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.csproj.CopyComplete
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.exe
+E:\Projects\VS2017\Panda.Web\Panda\Panda.WinForm\obj\Debug\Panda.WinForm.pdb

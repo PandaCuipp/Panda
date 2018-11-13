@@ -6,3 +6,11 @@ E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.Common\obj\Debug\Panda.Common.dll
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.Common\obj\Debug\Panda.Common.pdb
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.Common\bin\Debug\ChnCharInfo.dll
 E:\Projects\VS2017\Panda.Web\Panda.Web\Panda.Common\obj\Debug\Panda.Common.csproj.CopyComplete
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\bin\Debug\Panda.Common.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\bin\Debug\Panda.Common.pdb
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\bin\Debug\ChnCharInfo.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\obj\Debug\Panda.Common.csprojAssemblyReference.cache
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\obj\Debug\Panda.Common.csproj.CoreCompileInputs.cache
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\obj\Debug\Panda.Common.csproj.CopyComplete
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\obj\Debug\Panda.Common.dll
+E:\Projects\VS2017\Panda.Web\Panda\Panda.Common\obj\Debug\Panda.Common.pdb
