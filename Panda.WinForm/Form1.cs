@@ -20,7 +20,7 @@ namespace Panda.WinForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text = PinYinHelper.GetPYFullString(textBox1.Text);
+            textBox2.Text = PinYinHelper.GetPYFirstString(textBox1.Text);
 
         }
     }
