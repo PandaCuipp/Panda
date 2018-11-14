@@ -22,6 +22,7 @@ namespace Panda.WinForm
         {
             textBox2.Text = PinYinHelper.GetPYFirstString(textBox1.Text);
 
+            DateTime d = DateTime.Parse("2018-9-11");
         }
     }
 }
