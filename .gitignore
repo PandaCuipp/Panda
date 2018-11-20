@@ -10,3 +10,13 @@
 /Panda.WinForm/bin
 /.vs/Panda/v15
 /.vs
+/src/Panda.WinForm/bin
+/src/Panda.WinForm/obj
+/src/Panda.Web/obj
+/src/Panda.Web/App_Data
+/src/Panda.Web/bin
+/src/Panda.Form/bin
+/src/Panda.Common/obj
+/src/Panda.Common/bin
+/src/.vs
+/src/packages
