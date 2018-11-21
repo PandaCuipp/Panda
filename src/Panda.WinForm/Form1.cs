@@ -22,9 +22,18 @@ namespace Panda.WinForm
         {
             textBox2.Text = PinYinHelper.GetPYFirstString(textBox1.Text);
 
-            DateTime d = DateTime.Parse("2018-9-11");
+            DateTime d = DateTime.Parse("20180911");
 
             
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string cardNo = textBox3.Text.Trim();
+            DateTime? birth = IDCardHepler.GetBirthDay(cardNo);
+            double age = IDCardHepler.GetAge(cardNo);
+
+            textBox4.Text = birth?.ToString("yyyy-MM-dd") + "," + age;
         }
     }
 }

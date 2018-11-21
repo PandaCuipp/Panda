@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Panda.Common
 {
-    public class PinYinHelper
+    public static class PinYinHelper
     {
         #region ChnCharInfo.dll
 
