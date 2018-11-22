@@ -21,19 +21,34 @@ namespace Panda.WinForm
         private void button1_Click(object sender, EventArgs e)
         {
             textBox2.Text = PinYinHelper.GetPYFirstString(textBox1.Text);
-
-            DateTime d = DateTime.Parse("20180911");
-
-            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string cardNo = textBox3.Text.Trim();
+            string cardNo = textBox1.Text.Trim();
             DateTime? birth = IDCardHepler.GetBirthDay(cardNo);
             double age = IDCardHepler.GetAge(cardNo);
 
-            textBox4.Text = birth?.ToString("yyyy-MM-dd") + "," + age;
+            textBox2.Text = birth?.ToString("yyyy-MM-dd") + "," + age;
+            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string cardNo = textBox1.Text.Trim();
+                textBox2.Text = IDCardHepler.TransFToS(cardNo);
+            }
+            catch (Exception ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+             textBox2.Text ="" + IDCardHepler.IsIdCard(textBox1.Text.Trim());
         }
     }
 }
