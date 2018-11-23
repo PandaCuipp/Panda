@@ -68,19 +68,44 @@ namespace Panda.Common
         /// <summary>
         /// 获取年龄
         /// </summary>
-        /// <param name="idCardNo"></param>
+        /// <param name="idcardNo"></param>
         /// <returns></returns>
-        public static double GetAge(string idCardNo)
+        public static double GetAge(string idcardNo)
         {
-            double age = 0;
-            DateTime? birthday = GetBirthDay(idCardNo);
-            if (!birthday.HasValue) { return age; }
+            int age = 0;
+            if (!string.IsNullOrWhiteSpace(idcardNo))
+            {
+                try
+                {
+                    string year, month, day;
+                    if (idcardNo.Length == 18)
+                    {
+                        year = idcardNo.Substring(6, 4);
+                        month = idcardNo.Substring(10, 2);
+                        day = idcardNo.Substring(12, 2);
+                    }
+                    else if (idcardNo.Length == 15)
+                    {
+                        year = string.Concat("19", idcardNo.Substring(6, 2));
+                        month = idcardNo.Substring(8, 2);
+                        day = idcardNo.Substring(10, 2);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
 
-            int y = DateTime.Today.Year - birthday.Value.Year;
-            DateTime tmp = birthday.Value.AddYears(y);
-            age = y + ((DateTime.Today - tmp).TotalDays) / (DateTime.DaysInMonth(tmp.Year, 2) + 337);
-
+                    if (DateTime.TryParse(string.Concat(year, "-", month, "-", day), out DateTime birthday))
+                    {
+                        int y = DateTime.Today.Year - birthday.Year;
+                        DateTime tmp = birthday.AddYears(y);
+                        age = (int)(y + ((DateTime.Today - tmp).TotalDays) / (DateTime.DaysInMonth(tmp.Year, 2) + 337));
+                    }
+                }
+                catch { }
+            }
             return age;
+
         }
 
         /// <summary>
@@ -95,9 +120,23 @@ namespace Panda.Common
             if (string.IsNullOrWhiteSpace(idCardNo)) { return birthday; }
             if (!IsIdCard(idCardNo)) { return birthday; }
 
-            string year = idCardNo.Substring(6, 4);
-            string month = idCardNo.Substring(10, 2);
-            string day = idCardNo.Substring(12, 2);
+            string year, month, day;
+            if (idCardNo.Length == 18)
+            {
+                year = idCardNo.Substring(6, 4);
+                month = idCardNo.Substring(10, 2);
+                day = idCardNo.Substring(12, 2);
+            }
+            else if (idCardNo.Length == 15)
+            {
+                year = string.Concat("19", idCardNo.Substring(6, 2));
+                month = idCardNo.Substring(8, 2);
+                day = idCardNo.Substring(10, 2);
+            }
+            else
+            {
+                return birthday;
+            }
 
             try
             {
