@@ -47,23 +47,6 @@ namespace Panda.Common
             return correct;
             //return System.Text.RegularExpressions.Regex.IsMatch(str_idcard, @"(^\d{18}$)|(^\d{15}$)");
         }
-        // <summary>
-        /// 解析身份证
-        /// </summary>
-        /// <param name="pid"></param>
-        public static IdentificationDto AnalysisIdentification(string pid)
-        {
-            IdentificationDto identification = new IdentificationDto();
-            if (!string.IsNullOrEmpty(pid) && pid.Length == 18)
-            {
-                identification.Sex = int.Parse(pid.Substring(16, 1)) % 2 == 0 ? "女" : "男";
-                identification.ProvinceCode = pid.Substring(0, 2);
-                identification.CityCode = pid.Substring(0, 4);
-                identification.DistrictCode = pid.Substring(0, 6);
-                identification.Birthday = DateTime.Parse(pid.Substring(6, 8).Insert(6, "-").Insert(4, "-"));
-            }
-            return identification;
-        }
 
         /// <summary>
         /// 获取年龄
