@@ -32,16 +32,16 @@ namespace Panda.Common
             byte[] md5data = md5.ComputeHash(data);//计算data字节数组的哈希值 
 
             string b16 = BitConverter.ToString(md5data); //16
-            string b64 = Convert.ToBase64String(md5data);
+            //string b64 = Convert.ToBase64String(md5data);
 
 
-            md5.Clear();
-            string str = "";
-            for (int i = 0; i < md5data.Length - 1; i++)
-            {
-                str += md5data[i].ToString("x");
-            }
-            return str; //32
+            //md5.Clear();
+            //string str = "";
+            //for (int i = 0; i < md5data.Length - 1; i++)
+            //{
+            //    str += md5data[i].ToString("x");
+            //}
+            return b16.Replace("-","").ToLower(); //32
         }
     }
     

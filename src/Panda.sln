@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.WinForm", "Panda.WinF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.Common", "Panda.Common\Panda.Common.csproj", "{F5F24068-7480-46A5-A77C-67041C6A495F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.ConsoleApp", "Panda.ConsoleApp\Panda.ConsoleApp.csproj", "{432C5F23-9527-417A-A10F-39FC872B581E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F5F24068-7480-46A5-A77C-67041C6A495F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5F24068-7480-46A5-A77C-67041C6A495F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5F24068-7480-46A5-A77C-67041C6A495F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{432C5F23-9527-417A-A10F-39FC872B581E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{432C5F23-9527-417A-A10F-39FC872B581E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

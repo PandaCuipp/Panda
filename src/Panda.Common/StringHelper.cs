@@ -20,9 +20,9 @@ namespace Panda.Common
     /// </summary>
     public static class StringHelper
     {
-        public static string GetGUID()
+        public static Guid GetGUID()
         {
-            return Guid.NewGuid().ToString();
+            return Guid.NewGuid();
         }
 
         /// <summary>
