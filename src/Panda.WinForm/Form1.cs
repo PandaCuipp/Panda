@@ -108,6 +108,42 @@ namespace Panda.WinForm
             textBox2.Text = textBox1.Text.Length.ToString();
         }
 
+        private void button13_Click(object sender, EventArgs e)
+        {
+            //var str = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+            textBox2.Text = GetRandomString();
+        }
+        private string GetRandomString()
+        {
+            var str = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+            //获取时间戳
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1);
+            //毫秒
+            var timestamp = Convert.ToInt64(ts.TotalMilliseconds);     //精确到毫秒
+
+
+            var list = new List<int>();
+            for (var i = 6; i >= 0; i--)
+            {
+                var wei = timestamp / Math.Pow(36, i);
+                var index = wei % 36;
+                list.Add((int)index);
+            }
+
+            Random rd = new Random();
+            var c7 = rd.Next(0, 36);
+            list.Add((int)c7);
+
+            var result = "";
+            foreach (var index in list)
+            {
+                result += str[index];
+            }
+
+            return result;
+        }
         //private IDictionary<string, dynamic> DecodeToken(string token)
         //{
         //    try

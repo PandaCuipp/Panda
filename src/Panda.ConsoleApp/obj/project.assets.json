@@ -1864,6 +1864,15 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "Panda.Common/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Panda.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Panda.Common.dll": {}
+        }
       }
     }
   },
@@ -6267,13 +6276,19 @@
         "system.xml.xdocument.4.0.11.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "Panda.Common/1.0.0": {
+      "type": "project",
+      "path": "../Panda.Common/Panda.Common.csproj",
+      "msbuildProject": "../Panda.Common/Panda.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
       "JWT >= 5.0.1",
       "Microsoft.NETCore.App >= 2.1.0",
-      "MongoDB.Driver >= 2.7.2"
+      "MongoDB.Driver >= 2.7.2",
+      "Panda.Common >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -6305,7 +6320,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\MyProject\\Panda.Web\\Panda\\src\\Panda.Common\\Panda.Common.csproj": {
+              "projectPath": "E:\\MyProject\\Panda.Web\\Panda\\src\\Panda.Common\\Panda.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

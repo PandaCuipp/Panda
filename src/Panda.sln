@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.Common", "Panda.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.ConsoleApp", "Panda.ConsoleApp\Panda.ConsoleApp.csproj", "{432C5F23-9527-417A-A10F-39FC872B581E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.NetCore.Web", "Panda.NetCore.Web\Panda.NetCore.Web.csproj", "{AC154C2E-7E87-480A-A125-36B0F0490501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC154C2E-7E87-480A-A125-36B0F0490501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC154C2E-7E87-480A-A125-36B0F0490501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC154C2E-7E87-480A-A125-36B0F0490501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC154C2E-7E87-480A-A125-36B0F0490501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
