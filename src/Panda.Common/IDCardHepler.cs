@@ -17,31 +17,31 @@ namespace Panda.Common
     /// <summary>
     /// 身份证号解析
     /// </summary>
-    public static class IDCardHepler
+    public static class IdCardHelper
     {
         /// <summary>
         /// 验证身份证号是否合法
         /// </summary>
-        /// <param name="str_idcard"></param>
+        /// <param name="strIdCard"></param>
         /// <returns></returns>
-        public static bool IsIdCard(this string str_idcard)
+        public static bool IsIdCard(this string strIdCard)
         {
-            if (string.IsNullOrWhiteSpace(str_idcard))
+            if (string.IsNullOrWhiteSpace(strIdCard))
                 return false;
             var correct = false;
-            str_idcard = str_idcard.ToUpper();
+            strIdCard = strIdCard.ToUpper();
             var card15 = @"^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$";
             var card18 = @"^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$";
-            if (str_idcard.Length == 15)
+            if (strIdCard.Length == 15)
             {
-                correct = System.Text.RegularExpressions.Regex.IsMatch(str_idcard, card15);
+                correct = System.Text.RegularExpressions.Regex.IsMatch(strIdCard, card15);
             }
             else
             {
-                correct = System.Text.RegularExpressions.Regex.IsMatch(str_idcard, card18);
+                correct = System.Text.RegularExpressions.Regex.IsMatch(strIdCard, card18);
                 if (correct == true)
                 {
-                    correct = CheckIdentification(str_idcard);
+                    correct = CheckIdentification(strIdCard);
                 }
             }
             return correct;
@@ -101,7 +101,7 @@ namespace Panda.Common
             DateTime? birthday = null;
             
             if (string.IsNullOrWhiteSpace(idCardNo)) { return birthday; }
-            if (!IsIdCard(idCardNo)) { return birthday; }
+            if (!IsIdCard(idCardNo)) { return null; }
 
             string year, month, day;
             if (idCardNo.Length == 18)
@@ -130,6 +130,36 @@ namespace Panda.Common
             return birthday;
         }
 
+        /// <summary>
+        /// 从身份证号中获取性别
+        /// </summary>
+        /// <param name="idCardNo"></param>
+        /// <returns></returns>
+        public static string GetGender(string idCardNo)
+        {
+            string sex = "未知";
+
+            if (string.IsNullOrWhiteSpace(idCardNo)) { return sex; }
+            if (!IsIdCard(idCardNo)) { return "不合法身份证号"; }
+
+            int flag;
+            if (idCardNo.Length == 18)
+            {
+                flag =int.Parse(idCardNo.Substring(16, 1));
+            }
+            else if (idCardNo.Length == 15)
+            {
+                flag = int.Parse(idCardNo.Substring(14, 1));
+            }
+            else
+            {
+                return "未知";
+            }
+
+            sex = flag % 2 == 0 ? "女" : "男";
+
+            return sex;
+        }
 
         /// <summary>
         /// 校验身份证最后一位字符是否是合法的

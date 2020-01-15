@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Panda.Common;
 
@@ -17,21 +18,169 @@ namespace Panda.ConsoleApp
         static void Main(string[] args)
         {
 
+            //Test_GetRandomString2();
+            //Test_GenerateGuid();
 
-            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1);
-            //毫秒
-            var timestamp = Convert.ToInt64(ts.TotalSeconds);
+            //Test_SequentialGuidGenerator();
 
-            var argDic = new SortedDictionary<string, string>();
-            argDic.Add("Data", "asdfsafs");
-            argDic.Add("TimeStamp", timestamp.ToString());
+            //Test_TaskRun();
 
-            var param = string.Join("&", argDic.Select(x => $"{x.Key}={x.Value}"));
+            //Test_GetMethodName();
 
-            Console.WriteLine(param);
+            //Test_BankRound();
+
+            //Test_GetRandomInt();
+
+            //Test_ConvertEnum();
+
+            Test_Default();
 
             Console.ReadKey();
+        }
 
+        #region 默认值对比
+
+        static void Test_Default()
+        {
+            long? creatorId = default;
+            if (creatorId == default)
+            {
+                Console.WriteLine(true);
+            }
+            else
+            {
+                Console.WriteLine(false);
+            }
+        }
+
+        #endregion
+
+        #region 枚举强制转换
+
+        static void Test_ConvertEnum()
+        {
+            MyEnym my = (MyEnym)10;
+            Console.WriteLine(my);
+        }
+
+        #endregion
+
+        #region 随机产生数字验证码
+
+        static void Test_GetRandomInt()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var code = GetRandomInt(4);
+                Console.WriteLine(code);
+            }
+        }
+
+        private static string GetRandomInt(int len)
+        {
+            StringBuilder code = new StringBuilder();
+            for (int i = 0; i < len; i++)
+            {
+                var rand = new Random(System.Guid.NewGuid().GetHashCode());
+                var r = rand.Next(0, 9);
+                code.Append(r);
+            }
+            return code.ToString();
+        }
+
+        #endregion
+
+        #region 银行家算法验证
+
+        //银行家算法：四舍六入五考虑，五后非零就进一，五后为零看奇偶，五前为偶应舍去，五前为奇要进一
+        static void Test_BankRound()
+        {
+            Console.WriteLine(Convert.ToInt32(2.50));    // 2
+            double a = 1;
+            double b = 3;
+            Console.WriteLine(a/b);
+        }
+
+        #endregion
+
+        #region 获取方法全名
+
+        static void Test_GetMethodName()
+        {
+            var methodBase = System.Reflection.MethodBase.GetCurrentMethod();
+            var name = $"{methodBase.DeclaringType?.FullName}.{methodBase.Name}";
+            Console.WriteLine(name);
+            var name2 = $"{typeof(Program).FullName}.{methodBase.Name}";
+            Console.WriteLine(name2);
+        }
+
+
+        #endregion
+
+        #region Task 异步
+
+        static void Test_TaskRun()
+        {
+            for (var i = 0; i < 1000; i++)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Thread.Sleep(5000);
+                        Console.WriteLine($"Task执行完毕{i}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"异常：{i}{ex}");
+                    }
+                });
+
+                Console.WriteLine($"循环结束{i}");
+            }
+        }
+
+        #endregion
+        
+        #region 短信计费条数
+
+        /// <summary>
+        /// 获取短信计费条数
+        /// </summary>
+        /// <param name="type">短信平台</param>
+        /// <param name="smsLength">签名+正文=总长度</param>
+        /// <param name="phoneAmount">手机号码数量</param>
+        /// <returns></returns>
+        private static int GetSmsAmount(int smsLength, int phoneAmount)
+        {
+            var result = 0;
+            //超过70个字，每天短信按67个字计费
+            if (smsLength <= 70)
+            {
+                result = 1;
+            }
+            else
+            {
+                result = ((smsLength + 66) / 67);
+            }
+            //乘以发送手机号的数量
+            result = result * phoneAmount;
+            return result;
+        }
+
+        #endregion
+
+        static void Test_SequentialGuidGenerator()
+        {
+            SequentialGuidGenerator.Instance.DatabaseType = SequentialGuidGenerator.SequentialGuidDatabaseType.MySql;
+
+            for (var i = 0; i < 1000; i++)
+            {
+                var guid = SequentialGuidGenerator.Instance.Create();
+
+                Console.WriteLine(guid.ToString("N"));
+
+            }
         }
 
         static void Test_GetRandomString2()
@@ -207,6 +356,36 @@ namespace Panda.ConsoleApp
         }
 
 
+        public static void Test_GenerateGuid()
+        {
+            for (var i = 0; i < 1000; i++)
+            {
+                var guid = GenerateGuid();
+                Console.WriteLine($"{guid:N}");
+            }
+
+        }
+
+        public static Guid GenerateGuid()
+        {
+            byte[] guidArray = Guid.NewGuid().ToByteArray();
+
+            var baseDate = new DateTime(1900, 1, 1);
+            DateTime now = DateTime.Now;
+            var days = new TimeSpan(now.Ticks - baseDate.Ticks);
+            TimeSpan msecs = now.TimeOfDay;
+
+            byte[] daysArray = BitConverter.GetBytes(days.Days);
+            byte[] msecsArray = BitConverter.GetBytes((long)(msecs.TotalMilliseconds / 3.333333));
+
+            Array.Reverse(daysArray);
+            Array.Reverse(msecsArray);
+
+            Array.Copy(daysArray, daysArray.Length - 2, guidArray, guidArray.Length - 6, 2);
+            Array.Copy(msecsArray, msecsArray.Length - 4, guidArray, guidArray.Length - 4, 4);
+
+            return new Guid(guidArray);
+        }
 
         static void test()
         {

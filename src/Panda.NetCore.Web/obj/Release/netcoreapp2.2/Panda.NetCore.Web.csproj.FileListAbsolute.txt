@@ -1,0 +1,14 @@
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\bin\Release\netcoreapp2.2\Panda.NetCore.Web.deps.json
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\bin\Release\netcoreapp2.2\Panda.NetCore.Web.runtimeconfig.json
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\bin\Release\netcoreapp2.2\Panda.NetCore.Web.runtimeconfig.dev.json
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\bin\Release\netcoreapp2.2\Panda.NetCore.Web.dll
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\bin\Release\netcoreapp2.2\Panda.NetCore.Web.pdb
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.csprojAssemblyReference.cache
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.csproj.CoreCompileInputs.cache
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.RazorAssemblyInfo.cache
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.RazorAssemblyInfo.cs
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.AssemblyInfoInputs.cache
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.AssemblyInfo.cs
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.RazorTargetAssemblyInfo.cache
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.dll
+E:\Projects\My\Panda.Web\Panda\src\Panda.NetCore.Web\obj\Release\netcoreapp2.2\Panda.NetCore.Web.pdb

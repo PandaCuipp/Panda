@@ -40,6 +40,7 @@ namespace Panda.NetCore.Web
             }
 
 
+            //项目生命周期
             appLifetime.ApplicationStarted.Register(() => Console.WriteLine("Started"));
             appLifetime.ApplicationStopping.Register(() => Console.WriteLine("Stopping"));
             appLifetime.ApplicationStopped.Register(() =>
@@ -55,10 +56,27 @@ namespace Panda.NetCore.Web
                 return async (context) =>
                 {
                     var aa = context.Features;
-                    Console.WriteLine($"{DateTime.Now}:--{context.Request.GetDisplayUrl()}");
-                    await context.Response.WriteAsync("Hello Asp.Net Core!");
-                    //await next(context);
+                    Console.WriteLine($"Step1 {DateTime.Now}:--{context.Request.GetDisplayUrl()}");
+                    await context.Response.WriteAsync("Step1");
+                    await next(context);
                     //appLifetime.StopApplication();
+                };
+            });
+
+            app.Use(next => {
+                return async (context) => {
+                    var aa = context.Features;
+                    Console.WriteLine($"Step2 {DateTime.Now}:--{context.Request.GetDisplayUrl()}");
+                    await context.Response.WriteAsync("Step2");
+                    await next(context);
+                };
+            });
+            app.Use(next => {
+                return async (context) => {
+                    var aa = context.Features;
+                    Console.WriteLine($"Step3 {DateTime.Now}:--{context.Request.GetDisplayUrl()}");
+                    await context.Response.WriteAsync("Step3");
+                    //await next(context);
                 };
             });
 
