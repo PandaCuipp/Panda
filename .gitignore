@@ -20,3 +20,5 @@
 /src/Panda.Common/bin
 /src/.vs
 /src/packages
+/src/Panda.NetCore.Web/*
+/src/Panda.ConsoleApp/*

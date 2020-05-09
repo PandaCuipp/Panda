@@ -33,10 +33,59 @@ namespace Panda.ConsoleApp
 
             //Test_ConvertEnum();
 
-            Test_Default();
+            //Test_Default();
+
+            //Test_HashSet();
+
+            //Test_EnumHasFlag();
+
+            //Test_Child();
+
+            //Test_Networkdays();
 
             Console.ReadKey();
         }
+
+        #region 工作日计算
+
+        static void Test_Networkdays()
+        {
+            for (int i = 1; i < 31; i++)
+            {
+                var d = Networkdays($"2020-01-01", $"2020-01-{i}");
+                Console.WriteLine(i.ToString() + " : " + d);
+            }
+            //var d = Networkdays("2020-01-01", "2020-01-01");
+            //Console.WriteLine(d);
+        }
+
+        static int Networkdays(string start, string end, int holidays = 0)
+        {
+            var firstDay = DateTime.Parse(start);
+            var lastDay = DateTime.Parse(end);
+            var totalDays = (lastDay - firstDay).TotalDays * 5;
+            var calcBusinessDays = (int)(1 + (totalDays - (firstDay.DayOfWeek - lastDay.DayOfWeek) * 2) / 7);
+            if (lastDay.DayOfWeek == DayOfWeek.Saturday) calcBusinessDays--;
+            if (firstDay.DayOfWeek == DayOfWeek.Sunday) calcBusinessDays--;
+            return calcBusinessDays - holidays;
+        }
+
+        #endregion
+
+        #region 哈希表测试
+
+        static void Test_HashSet()
+        {
+            var hs = new HashSet<string>();
+            hs.Add("Key1");
+            hs.Add("key1");
+            hs.Add("Key1");
+
+
+            Console.WriteLine(string.Join(",", hs));
+        }
+
+        #endregion
 
         #region 默认值对比
 
@@ -98,7 +147,7 @@ namespace Panda.ConsoleApp
             Console.WriteLine(Convert.ToInt32(2.50));    // 2
             double a = 1;
             double b = 3;
-            Console.WriteLine(a/b);
+            Console.WriteLine(a / b);
         }
 
         #endregion
@@ -141,7 +190,7 @@ namespace Panda.ConsoleApp
         }
 
         #endregion
-        
+
         #region 短信计费条数
 
         /// <summary>
@@ -169,6 +218,8 @@ namespace Panda.ConsoleApp
         }
 
         #endregion
+
+        #region 生成指定位数不重复的编码
 
         static void Test_SequentialGuidGenerator()
         {
@@ -387,16 +438,40 @@ namespace Panda.ConsoleApp
             return new Guid(guidArray);
         }
 
-        static void test()
+        #endregion
+
+        #region 枚举
+
+        static void Test_EnumHasFlag()
         {
             MyEnym e = MyEnym.E1 | MyEnym.E3;
-            e = (MyEnym)7;
+            //e = (MyEnym)7;
             Console.WriteLine((int)e);
             Console.WriteLine(e.HasFlag(MyEnym.E1));
             Console.WriteLine(e.HasFlag(MyEnym.E2));
             Console.WriteLine(e.HasFlag(MyEnym.E3));
             Console.WriteLine(e.HasFlag(MyEnym.E4));
         }
+
+        #endregion
+
+        #region 子类赋值后是否覆盖了基类的虚属性
+
+        static void Test_Child()
+        {
+            var child = new Child();
+            child.EmployeeCode = "181613";
+            child.Id = 100;
+            ShowParent(child);
+        }
+
+        static void ShowParent<T>(T t) where T : Parent
+        {
+            Console.WriteLine($"id={t.Id}");
+            Console.WriteLine($"EmployeeCode={t.EmployeeCode}");
+        }
+
+        #endregion
     }
 
     enum MyEnym
@@ -407,6 +482,23 @@ namespace Panda.ConsoleApp
         E4 = 8,
     }
 
+    #region 子类赋值后是否覆盖了基类的虚属性
+
+    public class Parent
+    {
+        public virtual string EmployeeCode { get; set; }
+
+        public virtual int Id { get; set; }
+    }
+
+    public class Child : Parent
+    {
+        public override string EmployeeCode { get; set; }
+
+        public override int Id { get; set; }
+    }
+
+    #endregion
 
     #region 
 
