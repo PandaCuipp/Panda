@@ -22,3 +22,7 @@
 /src/packages
 /src/Panda.NetCore.Web/*
 /src/Panda.ConsoleApp/*
+/src/SignalRChat/obj
+/src/SignalRChat/bin
+/src/Panda.NetCore.WebApi/obj
+/src/Panda.NetCore.WebApi/bin

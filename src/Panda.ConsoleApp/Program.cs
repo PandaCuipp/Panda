@@ -43,8 +43,47 @@ namespace Panda.ConsoleApp
 
             //Test_Networkdays();
 
+            //Test_LamadaChange();
+
+            Test_NullLf0();
+
             Console.ReadKey();
         }
+
+        #region null值小于0？
+
+        /// <summary>
+        /// null值小于0？
+        /// </summary>
+        static void Test_NullLf0()
+        {
+            decimal? d1 = null;
+            
+            Console.WriteLine($"null值小于0?：");
+            Console.WriteLine(d1 <= 0);
+        }
+
+        #endregion
+
+        #region lamda获取的元素是否可以改动
+
+        static void Test_LamadaChange()
+        {
+            var list = new List<TestClass>();
+            list.Add(new TestClass() { ID = 1, Name = "Panda" });
+
+            Console.WriteLine($"改动前：{list[0].Name}");
+
+            var item = list.FirstOrDefault(x => x.ID == 1);
+            if (item != null)
+            {
+                item.Name = "Ling";
+            }
+            Console.WriteLine($"改动后：{list[0].Name}");
+
+        }
+
+        #endregion
 
         #region 工作日计算
 
@@ -562,4 +601,11 @@ namespace Panda.ConsoleApp
     }
 
     #endregion
+
+    public class TestClass
+    {
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+    }
 }
