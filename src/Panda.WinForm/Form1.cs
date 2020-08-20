@@ -254,5 +254,10 @@ namespace Panda.WinForm
             return m_Bitmap;
         }
 
+        private void button15_Click(object sender, EventArgs e)
+        {
+            var txt = textBox1.Text.Trim();
+            textBox2.Text = txt.Replace(";", "\r\n");
+        }
     }
 }
