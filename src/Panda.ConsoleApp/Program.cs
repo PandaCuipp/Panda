@@ -45,10 +45,96 @@ namespace Panda.ConsoleApp
 
             //Test_LamadaChange();
 
-            Test_NullLf0();
+            //Test_NullLf0();
+
+            //Test_DeserializeObject();
+
+
+            //decimal d = 352.5M;
+            //Console.WriteLine(Math.Round(d, 0,MidpointRounding.ToEven));
+
+            //Test_TrimEndWith();
+
+            var d = 1234.56789;
+            var str = d.ToString("N2");
+            Console.WriteLine(str);
+
+            str = d.ToString("N1");
+            Console.WriteLine(str);
+
+            str = d.ToString("N0");
+            Console.WriteLine(str);
+
+            str = d.ToString("N");
+            Console.WriteLine(str);
+
+            var list = new List<string>();
+            list.Insert(0,"Panda");
+
+            Console.WriteLine($"{string.Join("、", list)}");
 
             Console.ReadKey();
         }
+
+        #region 去掉末尾指定的字符串测试
+
+        static void Test_TrimEndWith()
+        {
+            var str = "https://gitlab.fangte.com/";
+            Console.WriteLine($"{str}:{TrimEndWith(str, "/")}");
+
+            str = "www.baidu.com";
+            Console.WriteLine($"{str}:{TrimEndWith(str, "/")}");
+
+            str = "0123456";
+            Console.WriteLine($"{str}:{TrimEndWith(str, "56")}");
+        }
+
+        /// <summary>
+        /// 清除末尾的 特定字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string TrimEndWith(string str, string c)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
+
+            if (str.EndsWith(c))
+            {
+                str = str.Substring(0, str.Length - c.Length);
+            }
+
+            return str;
+        }
+
+        #endregion
+
+        #region Json转化为实体
+
+        static void Test_DeserializeObject()
+        {
+            Console.WriteLine($"3 = {GetValue<int>("3")}");
+            Console.WriteLine($"false = {GetValue<int>("false")}");
+            Console.WriteLine($"true = {GetValue<int>("true")}");
+        }
+
+        /// <summary>
+        /// 根据属性名获取属性
+        /// </summary>
+        public static T GetValue<T>(string value)
+        {
+            if (value == null)
+            {
+                return default(T);
+            }
+            return JsonConvert.DeserializeObject<T>(value);
+        }
+
+        #endregion
 
         #region null值小于0？
 
@@ -58,9 +144,12 @@ namespace Panda.ConsoleApp
         static void Test_NullLf0()
         {
             decimal? d1 = null;
-            
-            Console.WriteLine($"null值小于0?：");
+
+            Console.Write($"null值小于等于0?：");
             Console.WriteLine(d1 <= 0);
+
+            Console.Write($"null值大于0?：");
+            Console.WriteLine(d1 > 0);
         }
 
         #endregion
