@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MongoDB.Bson.Serialization.IdGenerators;
 using Newtonsoft.Json;
 using Panda.Common;
 
@@ -55,26 +57,144 @@ namespace Panda.ConsoleApp
 
             //Test_TrimEndWith();
 
-            var d = 1234.56789;
-            var str = d.ToString("N2");
-            Console.WriteLine(str);
+            //var d = 1234.56789;
+            //var str = d.ToString("N2");
+            //Console.WriteLine(str);
 
-            str = d.ToString("N1");
-            Console.WriteLine(str);
+            //str = d.ToString("N1");
+            //Console.WriteLine(str);
 
-            str = d.ToString("N0");
-            Console.WriteLine(str);
+            //str = d.ToString("N0");
+            //Console.WriteLine(str);
 
-            str = d.ToString("N");
-            Console.WriteLine(str);
+            //str = d.ToString("N");
+            //Console.WriteLine(str);
 
-            var list = new List<string>();
-            list.Insert(0,"Panda");
+            //var list = new List<string>();
+            //list.Insert(0, "Panda");
 
-            Console.WriteLine($"{string.Join("、", list)}");
+            //Console.WriteLine($"{string.Join("、", list)}");
+
+            //var total = 10000;
+
+            //Test_ConstConcat(total);
+            //Test_ConstConcat2(total);
+            //Test_ConstConcat3(total);
+
+            Test_JobNameCorrected();
 
             Console.ReadKey();
         }
+
+        #region MyRegion
+
+        private static void Test_JobNameCorrected()
+        {
+            var str = Console.ReadLine();
+            while (!string.IsNullOrWhiteSpace(str) && str != "exit")
+            {
+                Console.WriteLine(JobNameCorrected(str));
+                str = Console.ReadLine();
+            }
+        }
+
+        /// <summary>
+        /// 除去末尾的点和数字
+        /// </summary>
+        /// <returns></returns>
+        private static string JobNameCorrected(string jobName)
+        {
+            if (string.IsNullOrWhiteSpace(jobName))
+            {
+                return jobName;
+            }
+
+            //jobName = jobName.Replace(".", "");
+
+            string regularExpression = @"([0-9]|\.)$";
+            Regex rg = new Regex(regularExpression);
+
+            while (rg.IsMatch(jobName))
+            {
+                jobName = jobName.Substring(0, jobName.Length - 1);
+            }
+
+            return jobName.Trim();
+
+        }
+
+        #endregion
+
+        #region 常量拼接
+
+        static void Test_ConstConcat(int totalNum)
+        {
+            GC.Collect();
+
+            // 定义一个秒表，执行获取执行时间
+            Stopwatch st = new Stopwatch();//实例化类
+            st.Start();//开始计时
+
+            Console.Write("开始执行，通过变量 + 连接字符串：");
+            string result = "a";
+            // 定义一个数组
+            for (int i = 0; i < totalNum; i++)
+            {
+                result = result + ".warning";
+            }
+
+            //需要统计时间的代码段
+
+            st.Stop();//终止计时
+            Console.WriteLine($"总耗时{st.ElapsedMilliseconds.ToString()}毫秒");
+        }
+
+        static void Test_ConstConcat2(int totalNum)
+        {
+            GC.Collect();
+
+            // 定义一个秒表，执行获取执行时间
+            Stopwatch st = new Stopwatch();//实例化类
+            st.Start();//开始计时
+
+            Console.Write("开始执行，通过常量 + 连接字符串：");
+
+            const string s1 = "a";
+            // 定义一个数组
+            for (int i = 0; i < totalNum; i++)
+            {
+                const string result = s1 + ".warning";
+            }
+
+            //需要统计时间的代码段
+
+            st.Stop();//终止计时
+            Console.WriteLine($"总耗时{st.ElapsedMilliseconds.ToString()}毫秒");
+        }
+
+        static void Test_ConstConcat3(int totalNum)
+        {
+            GC.Collect();
+
+            // 定义一个秒表，执行获取执行时间
+            Stopwatch st = new Stopwatch();//实例化类
+            st.Start();//开始计时
+
+            Console.Write("开始执行，通过变量 $ 连接字符串：");
+            string result = "a";
+            // 定义一个数组
+            for (int i = 0; i < totalNum; i++)
+            {
+                result = $"{result}.warning";
+            }
+
+            //需要统计时间的代码段
+
+            st.Stop();//终止计时
+            Console.WriteLine($"总耗时{st.ElapsedMilliseconds.ToString()}毫秒");
+        }
+
+        #endregion
 
         #region 去掉末尾指定的字符串测试
 

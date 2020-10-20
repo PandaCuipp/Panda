@@ -3,19 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.Web", "Panda.Web\Panda.Web.csproj", "{5D6A7EBD-D5BC-43B3-BE2A-D9EF80BFCBDB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.WinForm", "Panda.WinForm\Panda.WinForm.csproj", "{6C0851FD-D6FB-4682-BD56-265F4CE33B8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.Common", "Panda.Common\Panda.Common.csproj", "{F5F24068-7480-46A5-A77C-67041C6A495F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.ConsoleApp", "Panda.ConsoleApp\Panda.ConsoleApp.csproj", "{432C5F23-9527-417A-A10F-39FC872B581E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.NetCore.Web", "Panda.NetCore.Web\Panda.NetCore.Web.csproj", "{AC154C2E-7E87-480A-A125-36B0F0490501}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.NetCore.WebApi", "Panda.NetCore.WebApi\Panda.NetCore.WebApi.csproj", "{21577D73-E523-418B-A443-520A32A27AA9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{DB69F74B-B095-4F4A-9483-6A41DE9FE409}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{DB69F74B-B095-4F4A-9483-6A41DE9FE409}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5D6A7EBD-D5BC-43B3-BE2A-D9EF80BFCBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D6A7EBD-D5BC-43B3-BE2A-D9EF80BFCBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D6A7EBD-D5BC-43B3-BE2A-D9EF80BFCBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D6A7EBD-D5BC-43B3-BE2A-D9EF80BFCBDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C0851FD-D6FB-4682-BD56-265F4CE33B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C0851FD-D6FB-4682-BD56-265F4CE33B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C0851FD-D6FB-4682-BD56-265F4CE33B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,14 +29,6 @@ Global
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432C5F23-9527-417A-A10F-39FC872B581E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC154C2E-7E87-480A-A125-36B0F0490501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC154C2E-7E87-480A-A125-36B0F0490501}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC154C2E-7E87-480A-A125-36B0F0490501}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC154C2E-7E87-480A-A125-36B0F0490501}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21577D73-E523-418B-A443-520A32A27AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21577D73-E523-418B-A443-520A32A27AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21577D73-E523-418B-A443-520A32A27AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21577D73-E523-418B-A443-520A32A27AA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB69F74B-B095-4F4A-9483-6A41DE9FE409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB69F74B-B095-4F4A-9483-6A41DE9FE409}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB69F74B-B095-4F4A-9483-6A41DE9FE409}.Release|Any CPU.ActiveCfg = Release|Any CPU
