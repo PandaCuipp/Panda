@@ -26,3 +26,5 @@
 /src/SignalRChat/bin
 /src/Panda.NetCore.WebApi/obj
 /src/Panda.NetCore.WebApi/bin
+/src/AndroidApp1/obj
+/src/AndroidApp1/bin/Debug

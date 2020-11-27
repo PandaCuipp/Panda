@@ -1,15 +1,9 @@
 ﻿using Panda.Common;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Panda.WinForm
@@ -258,6 +252,12 @@ namespace Panda.WinForm
         {
             var txt = textBox1.Text.Trim();
             textBox2.Text = txt.Replace(";", "\r\n");
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            var txt = textBox1.Text.Trim();
+            textBox2.Text = txt.Replace("\r\n", "").Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("  ", " ");
         }
     }
 }

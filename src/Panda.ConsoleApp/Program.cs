@@ -1,6 +1,6 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
+using Newtonsoft.Json;
+using Panda.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,9 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.IdGenerators;
-using Newtonsoft.Json;
-using Panda.Common;
 
 namespace Panda.ConsoleApp
 {
@@ -81,7 +78,34 @@ namespace Panda.ConsoleApp
             //Test_ConstConcat2(total);
             //Test_ConstConcat3(total);
 
-            Test_JobNameCorrected();
+            //Test_JobNameCorrected();
+
+            //List<string> list1 = new List<string>();
+            //list1.Add("1111");
+            //list1.Add("2222");
+            //list1.Add("3333");
+            //list1.Add("4444");
+
+            //List<string> list2 = new List<string>();
+            //list2.Add("3333");
+            //list2.Add("4444");
+            //list2.Add("5555");
+            //list2.Add("6666");
+
+            ////交集
+            //var list11 = list1.Intersect(list2);
+
+            ////差集
+            //var list22 = list1.Except(list2);
+
+            ////并集
+            //var list33 = list1.Union(list2);
+
+            //Console.WriteLine("交集" + string.Join(" ", list11));
+            //Console.WriteLine("差集" + string.Join(" ", list22));
+            //Console.WriteLine("并集" + string.Join(" ", list33));
+
+
 
             Console.ReadKey();
         }
