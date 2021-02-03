@@ -39,15 +39,21 @@ namespace CreateNCSql
             {
                 BillDate = date,
                 Dwbm = "1009",
+                DwbmParentId = "1002",
+                DwbmCode = "SZN",
                 NoTaxMoney = decimal.Parse(txtTotalMoney.Text.Trim()),
                 RandNo = randNo,
                 TaxRate = 13,
                 Creator = "000166100000001HGVJC",
+                DanJuNum = 5,
             };
 
             input.YFVouchid = $"{input.Dwbm}6610000000{randNo}FE";
             input.FKVouchid = $"{input.Dwbm}6610000000{randNo}EF";
 
+            //物料价格明细
+            var goodsList = GetGoodsCost(input);
+            input.GoodsList = goodsList;
 
             #region param
             var _last = $"{input.BillDate:yyyyMMdd}{input.RandNo}";
@@ -62,9 +68,6 @@ namespace CreateNCSql
 
             //dwbm 单位编码 1107 => 采云 [组织架构表.UniqueCode]  1009 深圳智能
             var dwbm = input.Dwbm;
-
-            //物料价格明细
-            var goodsList = GetGoodsCost();
 
             //含税金额
             var taxTotal = goodsList.Sum(x => x.TaxTotal);
@@ -85,7 +88,7 @@ namespace CreateNCSql
             var deptid = "1009O1100000000GCYO1";
 
             //附件 发票数量
-            var fjNum = 5;
+            var fjNum = input.DanJuNum;
 
             //录入人 000166100000001HGVJC => 采云  配置：NCOption.DZCreator
             var creator = "000166100000001HGVJC";
@@ -107,8 +110,7 @@ namespace CreateNCSql
 
             var yfDanJuHao = $"YF{date:yyMMdd}{randNo}";
             //付款单单据号
-            var fkDanJuHao = $"FK{date:yyMMdd}{randNo}";
-
+            var fkDanJuHao = $"FK{input.DwbmCode}{date:yyMMdd}0{randNo}";
 
             //报销事由
             var bxsy = $"报销事由:vouchid={yf_vouchid}";
@@ -394,7 +396,7 @@ VALUES (
 , '{date:MM}'						-- djkjqj 单据月
 , 'D3'						-- djlxbm D3 采购付款单
 , '{date:yyyy-MM-dd}'				-- djrq 单据日期
-, '3'						-- djzt 单据状态  1已保存(未审核)  2已审核  3已签字
+, 1						-- djzt 单据状态  1已保存(未审核)  2已审核  3已签字
 , 0							-- dr 删除标志
 , '{dwbm}'					-- dwbm 公司主键1107
 , '{date:yyyy-MM-dd}'				-- effectdate 起效日起 2021-01-15
@@ -408,7 +410,7 @@ VALUES (
 , 'N'						-- qcbz 期初标志
 , '{creator}'	-- qrr 确认人 000166100000001HGVJC => 采云  配置：NCOption.DZCreator
 , '{otherRemark}'						-- scomment 其他-备注
-, 10						-- sxbz 生效标志 0无效  10生效
+, 0						-- sxbz 生效标志 0无效  10生效
 , '{fk_vouchid}'	-- vouchid 主键 20位
 , '0001O110000000001GTR'	-- xslxbm 销售类型编码  0001O110000000001GTE 一般采购业务员；0001O110000000001GTR 采购补录业务  
 , {taxTotalStr}						-- ybje 原币金额
@@ -429,7 +431,7 @@ VALUES (
 , {yifu}						-- zyx7 150（前期已付款）
 , {fjNum}						-- zyx8 附件数量 5
 , '{F0B7}'	-- zyx9 0001O11000000008F0B7 未知？
-, 1							-- zzzt 支付状态 0未支付  1已支付
+, 0							-- zzzt 支付状态 0未支付  1已支付
 , 0							-- zgyf 暂估应付标志 
 , 1							-- isselectedpay 选择付款 1
 , '{fukuanxieyi}'	-- zyx30 0001O110000000008L57（关联付款协议表bd_payterm主键）=> 采云 SupplierPaymentWay表.NCPK
@@ -526,7 +528,7 @@ VALUES (
 , '{zy}'	-- zy 摘要 
 , '{date:yyyy-MM-dd}'				-- qxrq 起效日期
 , 'N'						-- issfkxychanged  收付款协议是否发生变化
-, '1'						-- payflag 支付状态 0未支付 1已支付
+, NULL						-- payflag 支付状态 0未支付 1已支付
 , '{date:yyyy-MM-dd}'				-- billdate  单据日期
 , 'N'						-- isverifyfinished 是否核销完成
 , '3000-01-01'				-- verifyfinisheddate 核销完成日期
@@ -551,25 +553,10 @@ VALUES (
 
                 sb.AppendLine($@"
 -- 回写 应付单 附表 预占用核销原币余额 （{i + 1}/{goodsList.Count}）
-update arap_djfb set ts='{DateTime.Now:yyyy-MM-dd HH:mm:ss}',occupationmny = occupationmny - {item.TaxTotal:F2}  where fb_oid = '{item.YfItemBillNo}';
+update arap_djfb set ts='{DateTime.Now:yyyy-MM-dd HH:mm:ss}',occupationmny = occupationmny + {item.TaxTotal:F2}  where fb_oid = '{item.YfItemBillNo}';
 
 ");
             }
-
-            #endregion
-
-            #region 付款单审核
-
-            sb.AppendLine($@"
--- 付款单审核
-update arap_djzb set ts = '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'
-, sxbz = 10                     -- sxbz 生效标志
-, sxr = '{creator}'  -- sxr 生效人 000166100000001HGVJC
-, sxkjnd = '{date:yyyy}'               -- sxkjnd 生效年度 2021
-, sxkjqj = '{date:MM}'                 -- sxkjqj 生效期间 月 01
-, sxrq = '{date:yyyy-MM-dd}'           -- sxrq 生效日期   2021-01-15
-where vouchid = '{fk_vouchid}';
-");
 
             #endregion
 
@@ -645,6 +632,27 @@ VALUES (
 
 ");
             }
+
+            #endregion
+
+            #region 付款单审核
+
+            sb.AppendLine($@"
+-- 付款单审核
+update arap_djzb set ts = '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'
+, sxbz = 10                     -- sxbz 生效标志
+, sxr = '{creator}'  -- sxr 生效人 000166100000001HGVJC
+, sxkjnd = '{date:yyyy}'               -- sxkjnd 生效年度 2021
+, sxkjqj = '{date:MM}'                 -- sxkjqj 生效期间 月 01
+, sxrq = '{date:yyyy-MM-dd}'           -- sxrq 生效日期   2021-01-15
+
+,spzt = '1'                            -- spzt 审批状态
+,djzt = 2                              -- djzt 单据状态
+,shr = '{input.Creator}'
+,shkjnd = '{input.BillDate.Year}', shkjqj = '{input.BillDate:MM}', shrq = '{input.BillDate:yyyy-MM-dd}'
+
+where vouchid = '{fk_vouchid}';
+");
 
             #endregion
 

@@ -88,6 +88,9 @@ where vouchid = '{input.YFVouchid}' and djzt = 1;
 
 ");
 
+            return sb.ToString();
+
+            input.DapRtvouchKey = $"{input.DwbmParentId}6610000000{input.RandNo}CF";
             //生成 实时凭证
             sb.AppendLine($@"
 -- 生成 实时凭证
@@ -99,12 +102,87 @@ pk_voucher, pk_corp, year, period, type, no, prepareddate, tallydate,  attachmen
 ,voucherkind,ts
 ) 
 values(
-:1 , :2 , :3 , :4 , :5 , :6 , :7 , :8 , :9 , :10 , :11 , :12 , :13 , :14 , :15 , :16 
-, :17 , :18 , :19  ,:20 ,:21 ,:22 ,:23 , :24 , :25 , :26 , :27 , :28 , :29 
-, :30 , :31 , :32 , :33 , :34 , :35 , :36 , :37 , :38 ,'2021-02-02 16:44:56'
-)
+'{input.DapRtvouchKey}'                 -- pk_voucher 实时凭证主键 102266100000000VDLJU
+,'{input.Dwbm}'                         -- pk_corp  单位编码 1009
+,'{input.BillDate.Year}'                -- year 会计年度
+,'{input.BillDate:MM}'                  -- period 会计期间 
+,'0001O110000000020ZN7'                 -- type 凭证类别 0001O110000000020ZN3   0001O110000000020ZN7
+, 0                                     -- no  凭证编码 integer
+, '{input.BillDate:yyyy-MM-dd}'         -- prepareddate 制单日期
+, NULL                                  -- tallydate 记帐日期
+,{input.DanJuNum}                       -- attachment 附单据数
+,NULL                                   -- prepared 制单人
+,NULL                                   -- checker 审核人
+,NULL                                   -- casher 出纳
+,NULL                                   -- manager 记帐人
+,NULL                                   -- signflag 签字标志
+,'YYYYYYYYYYYYYYY'                      -- headmodflag 修改标志
+,NULL                                   -- discardflag 作废标志
+,'ARAP'                                 -- sysid 制单系统
+,NULL                                   -- addclass 增加接口类
+,NULL                                   -- deleteclass  删除接口类
+,NULL                                   -- assino 业务关联号
+,'{input.GlorgKey}'                     -- pk_glorg 会计主体
+,'{input.GlbookKey}'                    -- pk_glbook 财务账簿
+, def1,def2,def3,def4,def5,def6,def7,def8,def9,def10,freevalue1,freevalue2,freevalue3,freevalue4,freevalue5
+,0                                      -- voucherkind 凭证类型
+,'{GetDateTimeString()}'                -- ts
+);
 ");
 
+            // 实时凭证明细
+            var fuzhuID = $"1009O110000000003VI1";
+            for (int i = 0; i < input.GoodsList.Count; i++)
+            {
+                var item = input.GoodsList[i];
+                var detailId1 = $"{input.DwbmParentId}6610000000{input.RandNo + i}BE";
+                var detailId2 = $"{input.DwbmParentId}6610000000{input.RandNo + i}BD";
+                var detailId3 = $"{input.DwbmParentId}6610000000{input.RandNo + i}BC";
+
+                var iindex = i + 1;
+                sb.AppendLine($@"
+-- 实时凭证明细
+insert into 
+dap_rtvouch_b(
+
+pk_detail, pk_voucher, pk_corp, iindex, fk_accsubj, id, explanation, no,opposingsubj, price, excrate1, excrate2, debitaquality
+, debitamount, fracdebitamount, localdebitamount, creditquality, creditamount, fraccreditamount, localcreditamount, modifyflag
+, reciepclass, pk_currtype
+-- , fk_jsfs, checkno, checkdate,pk_innercorp
+-- ,def1,def2,def3,def4,def5,def6,def7,def8,def9,def10,def11
+-- ,def12,def13,def14,def15,def16,def17,def18,def19,def20,def21,def22,def23,def24,def25,def26,def27,def28,def29,def30,freevalue1
+-- ,freevalue2,freevalue3,freevalue4,freevalue5,freevalue6,freevalue7,freevalue8,freevalue9,freevalue10,freevalue11,freevalue12
+-- ,freevalue13,freevalue14,freevalue15,freevalue16,freevalue17,freevalue18,freevalue19,freevalue20,freevalue21,freevalue22
+-- ,freevalue23,freevalue24,freevalue25,freevalue26,freevalue27,freevalue28,freevalue29,freevalue30
+-- ,tradeno,tradedate ,fk_pjlx,pk_account,pk_contract,startrestdate,assino,coorno,creditsign,bankcode
+,pk_glorg,pk_glbook,ts
+
+) values(
+
+'{detailId1}' -- pk_detail 实时凭证分录主键
+,'{input.DapRtvouchKey}' -- pk_voucher 实时凭证主键
+,'{input.Dwbm}'         -- pk_corp 公司编码
+,{iindex} -- iindex 分录号，从1开始
+, fk_accsubj  科目编码
+, id 辅助核算标识
+, explanation
+, no,opposingsubj, price, excrate1, excrate2, debitaquality
+, debitamount, fracdebitamount, localdebitamount, creditquality, creditamount, fraccreditamount, localcreditamount, modifyflag
+, reciepclass, pk_currtype
+-- , fk_jsfs, checkno, checkdate,pk_innercorp
+-- ,def1,def2,def3,def4,def5,def6,def7,def8,def9,def10,def11
+-- ,def12,def13,def14,def15,def16,def17,def18,def19,def20,def21,def22,def23,def24,def25,def26,def27,def28,def29,def30,freevalue1
+-- ,freevalue2,freevalue3,freevalue4,freevalue5,freevalue6,freevalue7,freevalue8,freevalue9,freevalue10,freevalue11,freevalue12
+-- ,freevalue13,freevalue14,freevalue15,freevalue16,freevalue17,freevalue18,freevalue19,freevalue20,freevalue21,freevalue22
+-- ,freevalue23,freevalue24,freevalue25,freevalue26,freevalue27,freevalue28,freevalue29,freevalue30
+-- ,tradeno,tradedate ,fk_pjlx,pk_account,pk_contract,startrestdate,assino,coorno,creditsign,bankcode
+,pk_glorg,pk_glbook,ts
+
+
+);
+");
+
+            }
 
             return sb.ToString();
         }
