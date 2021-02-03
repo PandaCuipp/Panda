@@ -28,3 +28,11 @@
 /src/Panda.NetCore.WebApi/bin
 /src/AndroidApp1/obj
 /src/AndroidApp1/bin/Debug
+/src/App1/obj
+/src/App1/bin/Debug
+/src/ComSerial/obj
+/src/ComSerial2/obj/Debug
+/src/Crawler/bin/Debug/netcoreapp3.1
+/src/Crawler/obj
+/src/CreateNCSql/bin/Debug/netcoreapp3.1
+/src/CreateNCSql/obj

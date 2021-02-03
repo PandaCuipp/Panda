@@ -16,6 +16,7 @@ namespace Panda.ConsoleApp
     {
         static void Main(string[] args)
         {
+            #region test
 
             //Test_GetRandomString2();
             //Test_GenerateGuid();
@@ -106,11 +107,46 @@ namespace Panda.ConsoleApp
             //Console.WriteLine("并集" + string.Join(" ", list33));
 
 
+            #endregion
+
+            //Test_JobNameCorrected();
+
+            //Test_Operator();
+
+            decimal dec = 852120.389560007788888M;
+
+            Console.WriteLine($"{dec:F2}");
+
+            Console.WriteLine((dec).ToString());
 
             Console.ReadKey();
         }
 
-        #region MyRegion
+        #region 网页爬虫
+
+
+
+        #endregion
+
+        #region 运算符重载
+
+        static void Test_Operator()
+        {
+            TestClass t = 10;
+
+            //operator int(TestClass t)
+            int i = t;
+
+            TestClass2 t2 = (TestClass2)t;
+
+            TestClass tt = (TestClass)t2;
+
+            Console.WriteLine(tt.Value);
+        }
+
+        #endregion
+
+        #region 去掉字符串末尾的数字
 
         private static void Test_JobNameCorrected()
         {
@@ -840,5 +876,37 @@ namespace Panda.ConsoleApp
         public int ID { get; set; }
 
         public string Name { get; set; }
+
+        public int Value { get; set; }
+
+        //int i = new TestClass();
+        public static implicit operator int(TestClass t)
+        {
+            return t.Value;
+        }
+
+        //TestClass t = 10;
+        public static implicit operator TestClass(int val)
+        {
+            return new TestClass() { Value = val };
+        }
+
+        //TestClass2 t2 = (TestClass2)t;
+        public static explicit operator TestClass2(TestClass val)
+        {
+            return new TestClass2() { Value2 = val.Value };
+        }
+
+        //TestClass t = (TestClass)t2;
+        public static explicit operator TestClass(TestClass2 val)
+        {
+            return new TestClass() { Value = val.Value2 };
+        }
+    }
+
+    public class TestClass2
+    {
+        public int Value2 { get; set; }
+
     }
 }
