@@ -50,6 +50,7 @@ namespace CreateNCSql
 
             input.YFVouchid = $"{input.Dwbm}6610000000{randNo}FE";
             input.FKVouchid = $"{input.Dwbm}6610000000{randNo}EF";
+            var settlementKey = $"{input.Dwbm}6610000000{randNo}AF"; //100966100000000SLAV3
 
             //物料价格明细
             var goodsList = GetGoodsCost(input);
@@ -81,7 +82,7 @@ namespace CreateNCSql
 
             //ywbm 单据类型 select djlxoid from arap_djlx where djdl='yf' and DJLXBM='D1' and DWBM='[公司账套编码]' and dr = 0; 
             var ywbm_yf = "0001O11000000002CUYJ";
-            var ywbm_fk = "0001O11000000002CUYJ";
+            var ywbm_fk = "0001O11000000002TBQ5";
 
 
             //申请部门 deptid  部门pk  部门.UniqueCode 1009O1100000000GCYO1
@@ -210,15 +211,15 @@ VALUES (
 , '0001O110000000001GTR'	-- xslxbm 销售类型编码  0001O110000000001GTE 一般采购业务员；0001O110000000001GTR 采购补录业务
 , {taxTotalStr}						-- ybje 原币金额 550
 , '{ywbm_yf}'	-- ywbm 单据类型 select djlxoid from arap_djlx where djdl='yf' and DJLXBM='D1' and DWBM='[公司账套编码]' and dr = 0; （单据类型表arap_djlx）
-, '{address}'	        -- zyx10 提单地 0001O1100000000FMC20 = 深圳
-, '{bxsy}'				-- zyx11 报销事由  付款事由
+, '{address}'	        -- zyx10 提单地 0001O1100000000FMC20 = 深圳（同步NC）
+, '{bxsy}'				-- zyx11 报销事由  付款事由 （转义）
 , {baoxiaoJinE:F2}			-- zyx12 100（报销金额）
 , '{yafa}'	            -- zyx17 是否研发 0001O11000000002S8KN 否（ 0001O11000000002S8KM是）
 , NULL                  -- zyx4 2021-01-31
 , NULL	    -- zyx6 发票类型 10%增值税专用发票
 , {yifu}				-- zyx7 150（前期已付款）
 , {fjNum}							-- zyx8 附件数量 5
-, '{F0B7}'	-- zyx9 0001O11000000008F0B7 （申购部门）
+, '{F0B7}'	-- zyx9 0001O11000000008F0B7 （申购部门）（NULL）
 , 0							-- zzzt 支付状态 0未支付 1已支付
 , 0							-- zgyf 暂估应付标志 0
 , 1							-- isselectedpay 选择付款 isselectedpay 1
@@ -312,7 +313,7 @@ VALUES
 , {item.Tax:F2}						-- dfybsj 贷方原币税金
 , {item.Total:F2}						-- dfybwsje 贷方原币无税金额 500
 , {item.Price:F2}						-- dj 单价，不含税单价
-, 'C-YF{date:yyMMdd}{randNo}'			-- djbh 单据编号冗余：主表DJBH
+, 'C-YF{date:yyMMdd}{randNo}'			-- djbh 单据编号冗余：主表DJBH  ？？
 , 0							-- dr 删除标志 0
 , '{dwbm}'					-- dwbm 公司pk 1107 => 采云 组织架构表.UniqueCode
 , '{item.YfItemBillNo}'	-- fb_oid 辅表主键
@@ -389,7 +390,7 @@ bbje, djbh, djdl, djkjnd, djkjqj, djlxbm, djrq, djzt, dr, dwbm, effectdate, fbje
 , zyx9, zzzt, zgyf, isselectedpay, zyx30, isnetready, isjszxzf, isreded ,ts
 ) 
 VALUES ( 
-{taxTotal * huilv:F2}						-- bbhl 本币金额 保留2位小数
+{taxTotal * huilv:F2}						-- bbhl 本币金额 本次付款应付金额 保留2位小数
 , '{fkDanJuHao}'			-- djbh 单据编号 =>自动生成 C-FK21012000004
 , 'fk'						-- djdl 单据大类 fk（fk 采购付款单，yf 采购应付单，表arap_djlx）
 , '{date:yyyy}'					-- djkjnd 单据年
@@ -400,7 +401,7 @@ VALUES (
 , 0							-- dr 删除标志
 , '{dwbm}'					-- dwbm 公司主键1107
 , '{date:yyyy-MM-dd}'				-- effectdate 起效日起 2021-01-15
-, {taxTotal:F2}						-- fbje 原币金额
+, {taxTotal:F2}						-- fbje 原币金额 原应付单总的应付原币金额
 , {fjNum}							-- fj 附件数量
 , -1						-- hzbz 坏帐标志
 , '{creator}'	-- lrr 录入人 000166100000001HGVJC => 采云  配置：NCOption.DZCreator
@@ -419,7 +420,7 @@ VALUES (
 , '{bxsy}'		-- zyx11 备注 报销事由
 , {hetongjine:F2}					-- zyx12 合同金额 手工录入
 , {yibaoxiao}							-- zyx13 扣款金额 一般为0
-, '{deptid}'	-- zyx15 0001O11000000008F0B7（申购部门）
+, '{deptid}'	-- zyx15 0001O11000000008F0B7（申购部门）（NULL）
 , {yibaoxiao}						-- zyx16 前期已报销
 , '{yafa}'	-- zyx17  0001O11000000002S8KN 否（是否研发 0001O11000000002S8KM是）
 , '{contractno}'					-- zyx19 输入合同号
@@ -430,7 +431,7 @@ VALUES (
 , '{shuilv}%增值税专用发票'		-- zyx6 发票类型
 , {yifu}						-- zyx7 150（前期已付款）
 , {fjNum}						-- zyx8 附件数量 5
-, '{F0B7}'	-- zyx9 0001O11000000008F0B7 未知？
+, '{F0B7}'	-- zyx9 0001O11000000008F0B7 （申购部门）（NULL）
 , 0							-- zzzt 支付状态 0未支付  1已支付
 , 0							-- zgyf 暂估应付标志 
 , 1							-- isselectedpay 选择付款 1
@@ -453,28 +454,28 @@ VALUES (
                 sb.AppendLine($@"
 -- 付款单 附表 （{i + 1}/{goodsList.Count}）
 INSERT INTO arap_djfb ( 
-bbhl, bbye, bjdwhsdj, bjdwsl, bjdwwsdj, bzbm, chmc, cinventoryid, contractno, ddh, ddhh, ddlx, deptid
+bbhl, bbye, bjdwhsdj, bjdwsl, bjdwwsdj, bzbm, chmc, cinventoryid, ddhh, ddlx, deptid
 , dfbbje, dfbbsj, dfbbwsje, dffbje, dffbsj, dfshl, dfybje, dfybsj, dfybwsje, dj, djbh, dr, dwbm
 , fb_oid, fbhl, fbye, fkyhmc, flbh, fph, fx, hbbm, hsdj, jfbbje, jfbbsj, jffbje, jffbsj, jfshl
 , jfybje, jfybsj, jfybwsje, jobid, jsfsbm, kslb, old_sys_flag, pausetransact, shlye, sl, txlx_bbje
 , txlx_fbje, txlx_ybje, vouchid, wbfbbje, wbffbje, wbfybje, wldx, xgbh, ybye, ywbm, ywybm, zjldw
 , zy, qxrq, issfkxychanged, payflag, billdate, isverifyfinished, verifyfinisheddate, djxtflag
 , dfyhzh, occupationmny, djdl, djlxbm ,ts
+
 ) 
 VALUES ( 
+
 {huilv}						-- bbhl 本币汇率
-, 0							-- bbye 本币余额
+, {item.TaxTotal * huilv:F2}	-- bbye 本币余额
 , 0							-- bjdwhsdj 报价单位含税单价
 , 0							-- bjdwsl 报价单位数量
 , 0							-- bjdwwsdj 报价单位无税单价
 , '{bizhong}'	-- bzbm 币种编码
 , NULL						-- chmc 废弃1
 , '{item.GoodsNCCode}'	-- cinventoryid 存货基本档案pk 物料主键 => 物料.[NCCode]   select pk_invbasdoc from bd_invbasdoc where invcode = 'WH1006020820165' -- 根据NCCode获取
-, '{contractno}'				-- contractno 采购合同号
-, '{ddh}'				-- ddh 订单号
 , '{item.YfItemBillNo}'	-- ddhh 上层来源单据行id 应付单行号 11076610000000009NQI
 , '{yf_vouchid}'	-- ddlx 上层来源单据id 应付单 主键
-, '{deptid}'	-- deptid 部门pk => 部门.UniqueCode
+, '{deptid}'	-- deptid 部门pk => 部门.UniqueCode (NULL)
 , 0							-- dfbbje 贷方本币金额
 , 0							-- dfbbsj 贷方本币税金
 , 0							-- dfbbwsje 贷方本币无税金额
@@ -484,7 +485,7 @@ VALUES (
 , 0							-- dfybje  贷方原币金额
 , 0							-- dfybsj  贷方原币税金
 , 0							-- dfybwsje  贷方原币无税金额
-, {item.Price:F2}						-- dj 单价 无税单价
+, {item.Price:F8}			-- dj 单价 无税单价
 , '{fkDanJuHao}'			-- djbh 单据编号冗余 付款单号
 , 0							-- dr 删除标志
 , '{dwbm}'					-- dwbm 公司pk => 组织架构表.UniqueCode
@@ -496,7 +497,7 @@ VALUES (
 , '{fph}'		-- fph 发票维护单据号 My_FaPiaoWeiHu_003
 , 1							-- fx 方向 1 （应付单0  付款单1）
 , '{hbbm}'	-- hbbm 伙伴编码 0001O11000000009FZVJ 供应商编码 => 供应商.SupplierNCPK
-, {item.TaxPrice:F2}						-- hsdj 含税单价
+, {item.TaxPrice:F8}						-- hsdj 含税单价
 , {item.TaxTotal * huilv:F2}					-- jfbbje 借方本币金额
 , {item.Tax:F2}						-- jfbbsj 借方本币税金
 , 0							-- jffbje 借方辅币金额
@@ -505,12 +506,12 @@ VALUES (
 , {item.TaxTotal:F2}						-- jfybje 借方原币金额
 , {item.Tax:F2}						-- jfybsj 借方原币税金
 , {item.Total:F2}						-- jfybwsje 借方原币无税金额
-, '{jobid}'	-- jobid 专项基本档案id
+, '{jobid}'	-- jobid 专项基本档案id (NULL)
 , 'D1'						-- jsfsbm 上层来源单据类型 
 , {kslb}							-- kslb 扣税类别 
 , 'N'						-- old_sys_flag  无用1
 , 'N'						-- pausetransact  挂起标志
-, 0							-- shlye  数量余额
+, {item.Qty}				-- shlye  数量余额 (？？)
 , {shuilv}						-- sl 税率 10%
 , 0							-- txlx_bbje 贴现利息本币金额
 , 0							-- txlx_fbje 贴现利息辅币金额
@@ -521,20 +522,20 @@ VALUES (
 , 0							-- wbfybje 借方辅币无税金额
 , 1							-- wldx 往来对象标志
 , -1						-- xgbh 并账标志
-, 0							-- ybye 原币余额
+, {item.TaxTotal:F2}		-- ybye 原币余额
 , '{ywbm_fk}'	-- ywbm 单据类型pk冗余 000166100000001HTOCZ=采购应付单；  000166100000001HTLYA=采购付款单（单据类型表arap_djlx）
 , '{ywybm}'	-- ywybm 业务员pk 000166100000001HTLUV
-, '0001O110000000000MT3'	-- zjldw 废弃3
+, '0001O110000000000MT3'	-- zjldw 废弃3  NULL
 , '{zy}'	-- zy 摘要 
 , '{date:yyyy-MM-dd}'				-- qxrq 起效日期
 , 'N'						-- issfkxychanged  收付款协议是否发生变化
 , NULL						-- payflag 支付状态 0未支付 1已支付
 , '{date:yyyy-MM-dd}'				-- billdate  单据日期
 , 'N'						-- isverifyfinished 是否核销完成
-, '3000-01-01'				-- verifyfinisheddate 核销完成日期
+, '3000-12-31'				-- verifyfinisheddate 核销完成日期
 , 0							-- djxtflag 单据协同标志 
 , '{bankNumber}'	-- dfyhzh 对方银行帐号 (bd_bankaccbas银行账户基本信息表主键)
-, 0							-- occupationmny 预占用核销原币余额
+, {item.TaxTotal:F2}							-- occupationmny 预占用核销原币余额
 , 'fk'						-- djdl 单据大类 fk
 , 'D3'						-- djlxbm 单据类型编码 
 , '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'		-- ts 时间戳
@@ -635,24 +636,126 @@ VALUES (
 
             #endregion
 
-            #region 付款单审核
+            #region 结算信息
 
+            //结算主表
             sb.AppendLine($@"
--- 付款单审核
-update arap_djzb set ts = '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'
-, sxbz = 10                     -- sxbz 生效标志
-, sxr = '{creator}'  -- sxr 生效人 000166100000001HGVJC
-, sxkjnd = '{date:yyyy}'               -- sxkjnd 生效年度 2021
-, sxkjqj = '{date:MM}'                 -- sxkjqj 生效期间 月 01
-, sxrq = '{date:yyyy-MM-dd}'           -- sxrq 生效日期   2021-01-15
-
-,spzt = '1'                            -- spzt 审批状态
-,djzt = 2                              -- djzt 单据状态
-,shr = '{input.Creator}'
-,shkjnd = '{input.BillDate.Year}', shkjqj = '{input.BillDate:MM}', shrq = '{input.BillDate:yyyy-MM-dd}'
-
-where vouchid = '{fk_vouchid}';
+-- 插入结算信息
+INSERT INTO cmp_settlement ( 
+iswagelisting, isbusicontrol, pk_finorg, busistatus, settlestatus, arithmetic, effectstatus, busi_billdate, pk_settlement
+, isbusieffect, pk_operator, systemcode, pk_tradetype, pk_ftsbill, pk_executor, lastupdatedate
+, iscmcandeal, busi_auditdate, settletype, pk_busibill
+, def20, def4, pk_signer, def3, def2, def1, def12, def13, def10
+, pk_auditor, def11, isautosign, isautopay, direction
+, def18, def19, def16, def17, def14, def15
+, isautogenerate, pk_busitype, dr, isapplybill, pk_corp, billcode, payway, signdate, issettleeffect, setlledate
+, fts_billtype, setlleno, primal, pk_billoperator, ispay, local, aduitstatus, lastupdater ,ts
+) 
+VALUES (
+NULL        -- iswagelisting 是否携带工资清单
+, NULL      -- isbusicontrol 是否业务控制数据处理
+, NULL      -- pk_finorg 财务组织（预留）
+, 4       -- busistatus 业务单据状态 2未审核 / 4已审核 Update
+, '0'       -- settlestatus 结算状态 0
+, '0'       -- arithmetic 结算信息处理算法  
+, 10       -- effectstatus 业务单据生效状态  0未生效 / 10已生效 Update
+, '{dateStr}'      -- busi_billdate 业务单据日期
+, '{settlementKey}'        -- pk_settlement 结算信息 主键
+, 'Y'       -- isbusieffect 业务单据是否已生效 （是否已审核签字）N / Y Update
+, '{creator}'        -- pk_operator 录入人
+, 'arap'        -- systemcode 归属系统
+, 'D3'          -- pk_tradetype 业务单单据类型
+, NULL          -- pk_ftsbill 委托收付款单主键
+, NULL          -- pk_executor 结算人
+, '{dateStr}'  -- lastupdatedate 最新更新日期
+, 'Y'           -- iscmcandeal 是否结算平台可处理
+, '{dateStr}'          -- busi_auditdate  业务单据审核日期 NULL / 2021-01-08 Update
+, '4'           -- settletype 完成结算方式
+, '{fk_vouchid}'        -- pk_busibill 业务单据主键
+, NULL, NULL
+, '{creator}'          -- pk_signer 签字确认人 NULL / 000166100000001HGVJC Update
+, NULL, NULL, NULL, NULL, NULL, NULL
+, '{creator}'          -- pk_auditor 业务单据审核人 NULL / 000166100000001HGVJC Update
+, NULL
+, 'Y'           -- isautosign 是否自动签字
+, NULL          -- isautopay 是否自动支付
+, '1'           -- direction 方向
+, NULL, NULL, NULL, NULL, NULL, NULL
+, NULL          -- isautogenerate 是否自动生成
+, '0001O110000000001GTR'        -- pk_busitype 单据业务类型 0001O110000000001GTE 一般采购业务员；0001O110000000001GTR 采购补录业务
+, '0'           -- dr 删除标识
+, 'N'           -- isapplybill 收付申请单
+, '{dwbm}'        -- pk_corp 公司pk
+, '{fkDanJuHao}'        -- billcode 业务单据编号 付款单单据号
+, NULL          -- payway int 收付款方式
+, '{dateStr}'          -- signdate 签字确认日期 NULL / 2012-01-08 Update
+, 'N'           -- issettleeffect  结算单是否生效
+, NULL          -- setlledate 结算日期
+, NULL          -- fts_billtype 委托收付款单单据类型
+, NULL          -- setlleno 结算号
+, {taxTotal:F2}        -- primal 原币金额
+, '{creator}'        -- pk_billoperator  业务单据录入人 000166100000001HGVJC
+, 'Y'           -- ispay 是否委付
+, {taxTotal * huilv:F2}        -- local 本币金额
+, '0'           -- aduitstatus 业务单据审批状态 4 / 0 Update
+, '{creator}'        -- lastupdater 最新更新人 000166100000001HGVJC
+, '{GetDateTimeString()}'         -- ts 时间戳
 ");
+
+            for (int i = 0; i < goodsList.Count; i++)
+            {
+                var item = goodsList[i];
+
+                //结算明细
+                sb.AppendLine($@"
+-- 结算信息明细 
+INSERT INTO cmp_detail 
+( 
+settlelineno, lastest_paydate, isacccord, pk_finorg, oppbank, pk_notetype, pk_account, processtype, expectate_date, issamebank
+, def7, def8, def5, def6, def9, systemcode, tallystatus, oppaccount, checkcount, def4, fundformcode, def3, def2, def1, def12
+, pk_psndoc, def13, def10, def11, memo, paylocal, def18, def19, def16, def17, def14, def15, pk_balatype, billtime, checkdate
+, fracrate, pk_busitype, pk_oppbank, pk_innercorp, bankrelated_code, pk_trader, dr, transtype, pk_billdetail, tradertype, signdate
+, pk_cashflow, tradername, pk_job, pk_deptdoc, busilineno, exectime, tallydate, pk_paybill, settlestatus, pk_rescenter, execdate
+, pk_currtype, pay_type, signtime, pk_settlement, pk_bill, pk_billtype, receivelocal, payfrac, code, localrate, modifyflag, pk_jobphase
+, paybillcode, fundsflag, def20, bankmsg, notenumber, pk_detail, pk_invcl, pk_plansubj, pk_cubasdoc, notedirection, pk_assaccount
+, direction, pk_bank, groupno, pk_oppaccount, pk_invbasdoc, billdate, pay, receivefrac, receive, pk_costsubj, pk_corp, billcode
+, issamecity, pk_billbalatype, pk_mngaccount, isbillrecord ,ts
+) 
+VALUES ( 
+
+:1 , :2 , :3 , :4 , :5 , :6 , :7 , :8 , :9 , :10 , :11 , :12 , :13 , :14 , :15 , :16 , :17 , :18 
+, :19 , :20 , :21 , :22 , :23 , :24 , :25 , :26 , :27 , :28 , :29 , :30 , :31 , :32 , :33 , :34 , :35 , :36 , :37 , :38 , :39 , :40 
+, :41 , :42 , :43 , :44 , :45 , :46 , :47 , :48 , :49 , :50 , :51 , :52 , :53 , :54 , :55 , :56 , :57 , :58 , :59 , :60 , :61 , :62 
+, :63 , :64 , :65 , :66 , :67 , :68 , :69 , :70 , :71 , :72 , :73 , :74 , :75 , :76 , :77 , :78 , :79 , :80 , :81 , :82 , :83 , :84 
+, :85 , :86 , :87 , :88 , :89 , :90 , :91 , :92 , :93 , :94 , :95 , :96 , :97 , :98 , :99 , :100 , :101  ,'2021-01-29 09:48:08'
+
+);
+
+");
+            }
+
+
+
+            #endregion
+
+            #region 付款单审核 签字
+
+            //            sb.AppendLine($@"
+            //-- 付款单审核
+            //update arap_djzb set ts = '{DateTime.Now:yyyy-MM-dd HH:mm:ss}'
+            //, sxbz = 10                     -- sxbz 生效标志
+            //, sxr = '{creator}'  -- sxr 生效人 000166100000001HGVJC
+            //, sxkjnd = '{date:yyyy}'               -- sxkjnd 生效年度 2021
+            //, sxkjqj = '{date:MM}'                 -- sxkjqj 生效期间 月 01
+            //, sxrq = '{date:yyyy-MM-dd}'           -- sxrq 生效日期   2021-01-15
+
+            //,spzt = '1'                            -- spzt 审批状态
+            //,djzt = 2                              -- djzt 单据状态
+            //,shr = '{input.Creator}'
+            //,shkjnd = '{input.BillDate.Year}', shkjqj = '{input.BillDate:MM}', shrq = '{input.BillDate:yyyy-MM-dd}'
+
+            //where vouchid = '{fk_vouchid}';
+            //");
 
             #endregion
 
