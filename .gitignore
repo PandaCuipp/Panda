@@ -36,3 +36,9 @@
 /src/Crawler/obj
 /src/CreateNCSql/bin/Debug/netcoreapp3.1
 /src/CreateNCSql/obj
+/src/EFOracle/bin/Debug/netcoreapp3.1
+/src/EFOracle/obj
+/src/MyScoketClient/bin/Debug/netcoreapp3.1
+/src/MyScoketClient/obj
+/src/MyScoketServer/bin/Debug/netcoreapp3.1
+/src/MyScoketServer/obj

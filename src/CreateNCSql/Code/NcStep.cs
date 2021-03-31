@@ -64,7 +64,7 @@ cinvoiceid, pk_corp, vinvoicecode, iinvoicetype, cdeptid, cfreecustid, cvendorma
 
             sb.AppendLine($@"
 -- 应付单审核
-update arap_djzb set ts = '{GetDateTimeString()}'
+update ARAP_DJZB set ts = '{GetDateTimeString()}'
 , sxbz = 10
 , sxr = '{input.Creator}'
 , sxkjnd = '{input.BillDate:yyyy}'

@@ -21,7 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComSerial", "ComSerial\ComS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComSerial2", "ComSerial2\ComSerial2.csproj", "{7B07BFEA-5634-4162-A099-0B62D04F1481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateNCSql", "CreateNCSql\CreateNCSql.csproj", "{76FB5ED5-0F7B-44A9-9F94-90117E7F533B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateNCSql", "CreateNCSql\CreateNCSql.csproj", "{76FB5ED5-0F7B-44A9-9F94-90117E7F533B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFOracle", "EFOracle\EFOracle.csproj", "{6DCA7050-2619-4842-A23E-EC663592F949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyScoketServer", "MyScoketServer\MyScoketServer.csproj", "{0F2F319B-36BC-48B4-9B13-8A47E6B04635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyScoketClient", "MyScoketClient\MyScoketClient.csproj", "{9CAB741B-AD35-458C-989A-54301C34D90D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +79,18 @@ Global
 		{76FB5ED5-0F7B-44A9-9F94-90117E7F533B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76FB5ED5-0F7B-44A9-9F94-90117E7F533B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76FB5ED5-0F7B-44A9-9F94-90117E7F533B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DCA7050-2619-4842-A23E-EC663592F949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DCA7050-2619-4842-A23E-EC663592F949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DCA7050-2619-4842-A23E-EC663592F949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DCA7050-2619-4842-A23E-EC663592F949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2F319B-36BC-48B4-9B13-8A47E6B04635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2F319B-36BC-48B4-9B13-8A47E6B04635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2F319B-36BC-48B4-9B13-8A47E6B04635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2F319B-36BC-48B4-9B13-8A47E6B04635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAB741B-AD35-458C-989A-54301C34D90D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAB741B-AD35-458C-989A-54301C34D90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAB741B-AD35-458C-989A-54301C34D90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAB741B-AD35-458C-989A-54301C34D90D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

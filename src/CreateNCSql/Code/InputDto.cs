@@ -19,6 +19,11 @@ namespace CreateNCSql.Code
         public string FKVouchid { get; set; }
 
         /// <summary>
+        /// 付款单 单据编号 100966100000000SLB87
+        /// </summary>
+        public string FKBillNo { get; set; }
+
+        /// <summary>
         /// 总无税金额
         /// </summary>
         public decimal NoTaxMoney { get; set; }
@@ -82,6 +87,11 @@ namespace CreateNCSql.Code
         /// 物料信息
         /// </summary>
         public List<GoodsCost> GoodsList { get; set; }
+
+        /// <summary>
+        /// 本币汇率
+        /// </summary>
+        public decimal HuiLv { get; set; }
     }
 }
 

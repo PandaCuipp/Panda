@@ -113,14 +113,26 @@ namespace Panda.ConsoleApp
 
             //Test_Operator();
 
-            decimal dec = 852120.389560007788888M;
-
-            Console.WriteLine($"{dec:F2}");
-
-            Console.WriteLine((dec).ToString());
+            Test_enum();
 
             Console.ReadKey();
         }
+
+        #region 枚举转化
+
+        static void Test_enum()
+        {
+            var code = 1;
+            object obj = code;
+            if (Enum.TryParse(typeof(MyEnym), obj.ToString(), true, out var c))
+            {
+                Console.WriteLine(c.ToString());
+            }
+
+            Console.WriteLine((MyEnym)obj);
+        }
+
+        #endregion
 
         #region 网页爬虫
 
