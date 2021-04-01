@@ -8,6 +8,8 @@ namespace MyScoketServer
 {
     class Program
     {
+        static Encoding encoding = Encoding.Default;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Server!");
@@ -44,12 +46,29 @@ namespace MyScoketServer
             while (reader != "over")
             {
                 byte[] buff = new byte[1024];
+                int r = 0;
+                try
+                {
+                    r = client.Receive(buff);
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode == SocketError.ConnectionReset)
+                    {
+                        Console.WriteLine($"某一client关闭！");
+                    }
+                    else
+                    {
+                        Console.WriteLine(ex);
+                    }
 
-                var r = client.Receive(buff);
-                reader = Encoding.UTF8.GetString(buff, 0, r);
+                    break;
+                }
+
+                reader = encoding.GetString(buff, 0, r);
                 Console.WriteLine($"{r}:{reader}");
 
-                client.Send(Encoding.UTF8.GetBytes("收到！"));
+                client.Send(encoding.GetBytes("收到！"));
             }
             client.Close();
         }

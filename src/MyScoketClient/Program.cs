@@ -8,25 +8,26 @@ namespace MyScoketClient
 {
     class Program
     {
+        static Encoding encoding = Encoding.Default;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Client!");
 
-            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Udp);
+            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
                 int c = 0;
                 while (!client.Connected && c < 10)
                 {
-                    Console.WriteLine($"尝试连接...");
                     try
                     {
-
                         client.Connect(IPAddress.Parse("127.0.0.1"), 9001);
                     }
                     catch (SocketException ex)
                     {
-
+                        Console.WriteLine($"{ex.SocketErrorCode}");
+                        Console.WriteLine($"尝试连接...");
                     }
                     finally
                     {
@@ -52,10 +53,22 @@ namespace MyScoketClient
                     if (!string.IsNullOrWhiteSpace(str))
                     {
                         byte[] buff = new byte[1024];
-                        buff = Encoding.UTF8.GetBytes(str);
+                        buff = encoding.GetBytes(str);
                         client.Send(buff);
                     }
 
+                }
+
+            }
+            catch (SocketException ex)
+            {
+                if (ex.SocketErrorCode == SocketError.ConnectionReset)
+                {
+                    Console.WriteLine($"server关闭！");
+                }
+                else
+                {
+                    Console.WriteLine(ex);
                 }
 
             }
@@ -79,9 +92,25 @@ namespace MyScoketClient
             while (reader != "over")
             {
                 byte[] buff = new byte[1024];
+                var r = 0;
+                try
+                {
+                    r = client.Receive(buff);
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode == SocketError.ConnectionReset)
+                    {
+                        Console.WriteLine($"server关闭！");
+                    }
+                    else
+                    {
+                        Console.WriteLine(ex);
+                    }
 
-                var r = client.Receive(buff);
-                reader = Encoding.UTF8.GetString(buff, 0, r);
+                    break;
+                }
+                reader = encoding.GetString(buff, 0, r);
                 Console.WriteLine($"{reader}");
 
             }
