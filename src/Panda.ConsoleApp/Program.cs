@@ -113,10 +113,30 @@ namespace Panda.ConsoleApp
 
             //Test_Operator();
 
-            Test_enum();
+            //Test_enum();
+
+            Test_DecimalNullX();
 
             Console.ReadKey();
         }
+
+
+        #region 可空变量是否可以相乘
+
+        static void Test_DecimalNullX()
+        {
+            decimal? a = 2;
+            decimal b = 2;
+            decimal? c = null;
+            decimal? d = null;
+
+            Console.WriteLine($"null * 2 null : {c * a}");
+            Console.WriteLine($"null * 2      : {c * b}");
+            Console.WriteLine($"null * null   : {c * d}");
+            Console.WriteLine($"2null * 2     : {a * b}");
+        }
+
+        #endregion
 
         #region 枚举转化
 
