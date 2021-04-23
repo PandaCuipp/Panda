@@ -42,3 +42,5 @@
 /src/MyScoketClient/obj
 /src/MyScoketServer/bin/Debug/netcoreapp3.1
 /src/MyScoketServer/obj
+/src/*/obj
+/src/*/bin

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace SignalRChat
+namespace OpenApiWeb
 {
     public class Program
     {
