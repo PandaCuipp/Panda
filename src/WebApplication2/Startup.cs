@@ -30,6 +30,8 @@ namespace OpenApiWeb
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api V1"));

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using FastMember;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Panda.Common;
 using System;
@@ -115,10 +116,106 @@ namespace Panda.ConsoleApp
 
             //Test_enum();
 
-            Test_DecimalNullX();
+            //Test_DecimalNullX();
+
+            //Test_ListReturn();
+
+            //Test_GetProperties();
+
+            string s = "情系";
+
+            var bytes1 = Encoding.UTF8.GetBytes(s);
+            var bytes2 = Encoding.Unicode.GetBytes(s);
+
+            Console.WriteLine(Encoding.UTF8.GetBytes(s).Length);
+            foreach (var b in bytes1)
+            {
+                Console.Write(b); Console.Write("  ");
+            }
+            Console.WriteLine();
+
+            Console.WriteLine(Encoding.Unicode.GetBytes(s).Length);
+            foreach (var b in bytes2)
+            {
+                Console.Write(b); Console.Write("  ");
+            }
+
+
+            Console.WriteLine(Encoding.UTF8.GetString(bytes1));
+            Console.WriteLine(Encoding.Unicode.GetString(bytes2));
 
             Console.ReadKey();
         }
+
+        #region MyRegion
+
+        static void Test_GetProperties()
+        {
+            Stopwatch st = new Stopwatch();
+            st.Start();
+            for (var i = 0; i < 10000; i++)
+            {
+                TestClass c = new TestClass() { ID = 1, Name = "Panda", Value = 10000 };
+                var ty = typeof(TestClass);
+                //var props = ty.GetProperties();
+                //var nameAttr = props.FirstOrDefault(x => x.Name == "Name");
+
+                //if (nameAttr != null)
+                //{
+                //    var name = nameAttr.GetValue(c);
+                //}
+
+                var accessor = TypeAccessor.Create(ty);
+
+                var o = accessor[c, "Name"];
+
+            }
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+        }
+
+        #endregion
+
+        #region 引用类型： return 和 as 都不会产生新的地址
+
+        static void Test_ListReturn()
+        {
+            var data = new List<string>() { "a", "b" };
+            var data1 = ChangeList(data);
+
+            var data2 = new List<string>() { "a", "b", "c" };
+
+            Console.WriteLine(data1 == data); // true
+            Console.WriteLine(data2 == data); // false
+
+
+            var children = new List<Child>
+            {
+                new Child() { Id = 1, EmployeeCode = "a" }
+            };
+            var children1 = ChangeListObj(children);
+
+            Console.WriteLine(children1 == children); // true
+
+        }
+
+        static List<T> ChangeList<T>(List<T> data)
+        {
+            var data1 = data as List<string>;
+            data1.Add("c");
+            data = data1 as List<T>;
+            return data;
+        }
+
+        static List<T> ChangeListObj<T>(List<T> data)
+        {
+            var data1 = data as List<Child>;
+            data1[0].EmployeeCode = "b";
+            data = data1 as List<T>;
+            return data;
+        }
+
+        #endregion
 
 
         #region 可空变量是否可以相乘
@@ -130,10 +227,10 @@ namespace Panda.ConsoleApp
             decimal? c = null;
             decimal? d = null;
 
-            Console.WriteLine($"null * 2 null : {c * a}");
-            Console.WriteLine($"null * 2      : {c * b}");
-            Console.WriteLine($"null * null   : {c * d}");
-            Console.WriteLine($"2null * 2     : {a * b}");
+            Console.WriteLine($"null * 2 null : {c * a}"); // null
+            Console.WriteLine($"null * 2      : {c * b}"); // null
+            Console.WriteLine($"null * null   : {c * d}"); // null
+            Console.WriteLine($"2null * 2     : {a * b}"); // 4
         }
 
         #endregion
@@ -941,4 +1038,5 @@ namespace Panda.ConsoleApp
         public int Value2 { get; set; }
 
     }
+
 }
