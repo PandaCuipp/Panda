@@ -122,32 +122,135 @@ namespace Panda.ConsoleApp
 
             //Test_GetProperties();
 
+            //Test_UTF8();
+
+            //Test_Action2().Wait();
+
+
+
+            int a = 123;
+            int b = 456;
+            a ^= b;
+            b ^= a;
+            a ^= b;
+
+            var arr = new int[100];
+
+            Console.WriteLine($"a = {a}");
+            Console.WriteLine($"b = {b}");
+
+
+            Console.ReadKey();
+        }
+
+        #region Action、Func:使用的是同一个线程
+
+        /// <summary>
+        /// //Action、Func:使用的是同一个线程
+        /// </summary>
+        static void Test_Action1()  //Action、Func:阻塞主线程 且 使用的是同一个线程
+        {
+            Console.WriteLine($"主线程 开始:{Thread.CurrentThread.ManagedThreadId}");
+
+            MyFunc((a, b) =>
+            {
+                Console.WriteLine($"Action 开始:{Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine(a + b);
+                Thread.Sleep(3000);
+                Console.WriteLine($"Action 结束:{Thread.CurrentThread.ManagedThreadId}");
+                return a + b;
+            });
+            Console.WriteLine($"主线程 结束:{Thread.CurrentThread.ManagedThreadId}");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        static async Task Test_Action2()
+        {
+            //Task.Run:非阻塞主线程 且 使用的不同一个线程
+            // Task.Run().Wait():可以阻塞主线程
+
+            var zhu = 100;
+            Console.WriteLine($"主线程 开始:{Thread.CurrentThread.ManagedThreadId}");
+            int i = 0;
+            while (i < 10)
+            {
+
+                i++;
+            }
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"Action 开始:{Thread.CurrentThread.ManagedThreadId}");
+                //Console.WriteLine(a + b);
+                Thread.Sleep(1000);
+                Console.WriteLine($"Action 结束:{Thread.CurrentThread.ManagedThreadId}  {zhu}");
+            });
+            Console.WriteLine($"主线程 结束:{Thread.CurrentThread.ManagedThreadId}");
+
+        }
+
+
+        static void MyAction(Action<int, int> a)
+        {
+
+            a(1, 2);
+            //a.Invoke(3, 4);
+            //var r = a.BeginInvoke(4, 5, callback: null, null);
+            //a.EndInvoke(r);
+
+        }
+
+        static void MyFunc(Func<int, int, int> a)
+        {
+            //a(1, 2);
+            a.Invoke(3, 4);
+            //var r = a.BeginInvoke(4, 5, callback: null, null);
+            //a.EndInvoke(r);
+        }
+
+
+        static void MyTask(Task task)
+        {
+            Console.WriteLine($"主线程 开始:{Thread.CurrentThread.ManagedThreadId}");
+
+            Console.WriteLine($"主线程 结束:{Thread.CurrentThread.ManagedThreadId}");
+        }
+        #endregion
+
+        #region UTF8中文占3个字节,英文和数组1个字节； Unicode都是2个字节
+
+        static void Test_UTF8()
+        {
             string s = "情系";
+
+            Console.WriteLine(s);
 
             var bytes1 = Encoding.UTF8.GetBytes(s);
             var bytes2 = Encoding.Unicode.GetBytes(s);
 
-            Console.WriteLine(Encoding.UTF8.GetBytes(s).Length);
+            Console.WriteLine("UTF8长度：" + Encoding.UTF8.GetBytes(s).Length);
             foreach (var b in bytes1)
             {
                 Console.Write(b); Console.Write("  ");
             }
             Console.WriteLine();
 
-            Console.WriteLine(Encoding.Unicode.GetBytes(s).Length);
+            Console.WriteLine("Unicode长度：" + Encoding.Unicode.GetBytes(s).Length);
             foreach (var b in bytes2)
             {
                 Console.Write(b); Console.Write("  ");
             }
-
+            Console.WriteLine();
 
             Console.WriteLine(Encoding.UTF8.GetString(bytes1));
             Console.WriteLine(Encoding.Unicode.GetString(bytes2));
 
-            Console.ReadKey();
         }
 
-        #region MyRegion
+        #endregion
+
+        #region 反射属性速度影响
 
         static void Test_GetProperties()
         {
@@ -348,11 +451,11 @@ namespace Panda.ConsoleApp
 
             Console.Write("开始执行，通过常量 + 连接字符串：");
 
-            const string s1 = "a";
+            string s1 = "a";
             // 定义一个数组
             for (int i = 0; i < totalNum; i++)
             {
-                const string result = s1 + ".warning";
+                s1 += ".warning";
             }
 
             //需要统计时间的代码段

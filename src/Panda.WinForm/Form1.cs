@@ -257,7 +257,18 @@ namespace Panda.WinForm
         private void button16_Click(object sender, EventArgs e)
         {
             var txt = textBox1.Text.Trim();
-            textBox2.Text = txt.Replace("\r\n", "").Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("  ", " ");
+            var newtxt = txt.Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ").Replace("\t", " ").Replace("  ", " ");
+            while (newtxt.Contains("  "))
+            {
+                newtxt = newtxt.Replace("  ", " ");
+            }
+            textBox2.Text = newtxt;
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            var txt = textBox1.Text.Trim();
+            textBox2.Text = txt.Replace("\"", "\\\"");
         }
     }
 }
